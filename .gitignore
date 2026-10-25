@@ -1,0 +1,12 @@
+node_modules/
+.next/
+.env*
+*.log
+.DS_Store
+Thumbs.db
+*.json.bak
+local_worker/email-automation-system-*.json
+local_worker/__pycache__/
+**/__pycache__/
+*.pyc
+*.tsbuildinfo

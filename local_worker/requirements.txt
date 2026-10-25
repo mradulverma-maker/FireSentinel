@@ -1,0 +1,4 @@
+gspread
+google-generativeai
+python-dotenv
+requests
