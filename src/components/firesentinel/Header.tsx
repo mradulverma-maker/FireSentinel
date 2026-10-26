@@ -96,3 +96,4 @@ export function Header({ activePage, searchQuery, onSearchChange }: {
     </header>
   );
 }
+

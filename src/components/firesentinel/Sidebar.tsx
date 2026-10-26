@@ -1,5 +1,5 @@
 ﻿"use client";
-import { Map, LayoutDashboard, Cpu, Navigation, ListChecks, Info, Flame, Activity } from "lucide-react";
+import { Map, LayoutDashboard, Cpu, Navigation, ListChecks, Info, Flame, Activity, Radio, Wind, Bell } from "lucide-react";
 import { type NavPage } from "../../lib/firesentinel/types";
 import { cn } from "../../lib/utils";
 
@@ -8,6 +8,9 @@ interface NavItem { id: NavPage; label: string; icon: React.ReactNode; badge?: s
 const NAV_ITEMS: NavItem[] = [
   { id: "overview",            label: "Overview",        icon: <LayoutDashboard size={14} /> },
   { id: "incident_map",        label: "Incident Map",    icon: <Map size={14} />,       badge: "5" },
+  { id: "sensor_network",      label: "Sensor Network",  icon: <Radio size={14} />,     badge: "6" },
+  { id: "fire_spread",         label: "Fire Spread",     icon: <Wind size={14} /> },
+  { id: "early_warning",       label: "Early Warning",   icon: <Bell size={14} /> },
   { id: "cv_lab",              label: "CV Lab",          icon: <Cpu size={14} /> },
   { id: "drone_simulator",     label: "Drone Sim",       icon: <Navigation size={14} /> },
   { id: "response_priorities", label: "Priorities",      icon: <ListChecks size={14} /> },
@@ -112,3 +115,4 @@ export function Sidebar({ activePage, onNavigate }: { activePage: NavPage; onNav
     </aside>
   );
 }
+

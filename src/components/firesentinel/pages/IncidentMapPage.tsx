@@ -1,9 +1,9 @@
 ﻿"use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 import {
   Layers, Navigation, MapPin, Flame, Route,
-  Clock, Satellite, ChevronRight, Crosshair, Building2, Zap, Droplets, Info
+  Clock, Satellite, ChevronRight, Crosshair, Building2, Zap, Droplets, Info, Radio, Wind, AlertCircle
 } from "lucide-react";
 import { MOCK_INCIDENTS } from "../../../lib/firesentinel/mockData";
 import { StatusBadge } from "../shared/StatusBadge";
@@ -48,9 +48,13 @@ export function IncidentMapPage({
   missionProgress,
 }: IncidentMapPageProps) {
   const [showHotspots, setShowHotspots] = useState(true);
-  const [showDroneRoute, setShowDroneRoute] = useState(true);
+  const [showSensors, setShowSensors] = useState(true);
   const [showPerimeter, setShowPerimeter] = useState(true);
-  const [showAssets, setShowAssets] = useState(true);
+  const [showRiskZone, setShowRiskZone] = useState(true);
+  const [showSettlements, setShowSettlements] = useState(true);
+  const [showRoads, setShowRoads] = useState(true);
+  const [showWind, setShowWind] = useState(true);
+  const [showDroneRoute, setShowDroneRoute] = useState(true);
   const [mapError, setMapError] = useState(false);
 
   const selectedIncident = selectedIncidentId
@@ -74,7 +78,7 @@ export function IncidentMapPage({
       {/* Left panel - incident list */}
       <div className="w-56 flex-shrink-0 border-r border-[#1e2d3d] flex flex-col bg-[#0d1117]">
         <div className="px-3 py-2.5 border-b border-[#1e2d3d]">
-          <span className="text-[10px] text-[#4a5568] uppercase tracking-wider">Incidents</span>
+          <span className="text-[10px] text-[#4a5568] uppercase tracking-wider">Incidents (India)</span>
         </div>
         <div className="flex-1 overflow-y-auto divide-y divide-[#1e2d3d]">
           {filtered.length === 0 && (
@@ -111,31 +115,35 @@ export function IncidentMapPage({
       {/* Map */}
       <div className="flex-1 overflow-hidden" style={{ position: "relative" }}>
         {/* Layer toggles */}
-        <div className="absolute top-3 left-3 z-10 bg-[#0d1117]/90 backdrop-blur border border-[#1e2d3d] rounded-lg p-3 space-y-2">
-          <div className="flex items-center gap-1.5 mb-2">
+        <div className="absolute top-3 left-3 z-10 bg-[#0d1117]/95 backdrop-blur border border-[#1e2d3d] rounded-lg p-3 space-y-1.5 shadow-xl max-h-[85vh] overflow-y-auto">
+          <div className="flex items-center gap-1.5 mb-2 pb-1 border-b border-[#1e2d3d]">
             <Layers size={11} className="text-[#4a5568]" />
-            <span className="text-[10px] text-[#8b9bb4] font-medium uppercase tracking-wider">Layers</span>
+            <span className="text-[10px] text-[#8b9bb4] font-medium uppercase tracking-wider">Map Layers</span>
           </div>
           {[
-            { label: "Hotspots", value: showHotspots, set: setShowHotspots, icon: <Flame size={10} /> },
-            { label: "Drone Route", value: showDroneRoute, set: setShowDroneRoute, icon: <Navigation size={10} /> },
-            { label: "Est. Perimeter", value: showPerimeter, set: setShowPerimeter, icon: <Crosshair size={10} /> },
-            { label: "Nearby Assets", value: showAssets, set: setShowAssets, icon: <MapPin size={10} /> },
+            { label: "Hotspots", value: showHotspots, set: setShowHotspots, icon: <Flame size={10} className="text-orange-500" /> },
+            { label: "IoT Sensors", value: showSensors, set: setShowSensors, icon: <Radio size={10} className="text-purple-400" /> },
+            { label: "Est. Perimeter", value: showPerimeter, set: setShowPerimeter, icon: <Crosshair size={10} className="text-red-500" /> },
+            { label: "Risk Zone", value: showRiskZone, set: setShowRiskZone, icon: <AlertCircle size={10} className="text-amber-500" /> },
+            { label: "Settlements", value: showSettlements, set: setShowSettlements, icon: <Building2 size={10} className="text-blue-400" /> },
+            { label: "Roads", value: showRoads, set: setShowRoads, icon: <Route size={10} className="text-yellow-400" /> },
+            { label: "Wind Direction", value: showWind, set: setShowWind, icon: <Wind size={10} className="text-cyan-400" /> },
+            { label: "Drone Route", value: showDroneRoute, set: setShowDroneRoute, icon: <Navigation size={10} className="text-blue-400" /> },
           ].map((layer) => (
-            <label key={layer.label} className="flex items-center gap-2 cursor-pointer group">
-              <div className={`w-7 h-4 rounded-full transition-colors relative ${layer.value ? "bg-green-600" : "bg-[#1e2d3d]"}`}>
-                <div className={`w-3 h-3 bg-white rounded-full absolute top-0.5 transition-transform ${layer.value ? "translate-x-3.5" : "translate-x-0.5"}`} />
+            <label key={layer.label} className="flex items-center gap-2 cursor-pointer group hover:bg-[#16202e] p-1 rounded transition-colors">
+              <div className={`w-6 h-3.5 rounded-full transition-colors relative ${layer.value ? "bg-green-600" : "bg-[#1e2d3d]"}`}>
+                <div className={`w-2.5 h-2.5 bg-white rounded-full absolute top-0.5 transition-transform ${layer.value ? "translate-x-3" : "translate-x-0.5"}`} />
               </div>
               <input type="checkbox" className="hidden" checked={layer.value} onChange={(e) => layer.set(e.target.checked)} />
-              <span className="text-[#4a5568]">{layer.icon}</span>
-              <span className="text-[11px] text-[#8b9bb4]">{layer.label}</span>
+              <span className="flex-shrink-0">{layer.icon}</span>
+              <span className="text-[10px] text-[#8b9bb4] group-hover:text-white transition-colors">{layer.label}</span>
             </label>
           ))}
         </div>
 
         {/* Legend */}
-        <div className="absolute bottom-3 left-3 z-10 bg-[#0d1117]/90 backdrop-blur border border-[#1e2d3d] rounded-lg p-3">
-          <span className="text-[10px] text-[#4a5568] uppercase tracking-wider block mb-2">Legend</span>
+        <div className="absolute bottom-3 left-3 z-10 bg-[#0d1117]/95 backdrop-blur border border-[#1e2d3d] rounded-lg p-3 shadow-xl">
+          <span className="text-[10px] text-[#4a5568] uppercase tracking-wider block mb-2 font-bold">Legend</span>
           <div className="space-y-1.5">
             {[
               { color: "bg-amber-500", label: "Candidate" },
@@ -145,17 +153,21 @@ export function IncidentMapPage({
               { color: "bg-neutral-500", label: "Low Priority" },
             ].map((l) => (
               <div key={l.label} className="flex items-center gap-2">
-                <span className={`w-2.5 h-2.5 rounded-full ${l.color}`} />
+                <span className={`w-2 h-2 rounded-full ${l.color}`} />
                 <span className="text-[10px] text-[#8b9bb4]">{l.label}</span>
               </div>
             ))}
             <div className="flex items-center gap-2 pt-1 border-t border-[#1e2d3d]">
-              <span className="text-red-500 text-[10px]">- - -</span>
+              <span className="w-2.5 h-2.5 rounded border border-purple-400 bg-purple-950/80 inline-block" />
+              <span className="text-[10px] text-[#8b9bb4]">IoT Node (Sensor)</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-red-500 text-[10px] font-mono">- - -</span>
               <span className="text-[10px] text-[#8b9bb4]">Est. Perimeter</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-blue-500 text-[10px]">- - -</span>
-              <span className="text-[10px] text-[#8b9bb4]">Drone Route</span>
+              <span className="text-orange-400 text-[10px] font-mono">···</span>
+              <span className="text-[10px] text-[#8b9bb4]">Projected Risk Zone</span>
             </div>
           </div>
         </div>
@@ -177,9 +189,13 @@ export function IncidentMapPage({
             selectedIncidentId={selectedIncidentId}
             onSelectIncident={onSelectIncident}
             showHotspots={showHotspots}
+            showSensors={showSensors}
             showDroneRoute={showDroneRoute}
             showPerimeter={showPerimeter}
-            showAssets={showAssets}
+            showRiskZone={showRiskZone}
+            showSettlements={showSettlements}
+            showRoads={showRoads}
+            showWind={showWind}
             missionProgress={missionProgress}
           />
         )}
@@ -241,7 +257,7 @@ export function IncidentMapPage({
                 <ul className="space-y-1">
                   {selectedIncident.priorityFactors.map((f, i) => (
                     <li key={i} className="text-[#8b9bb4] flex gap-1.5">
-                      <span className="text-green-600 flex-shrink-0">&#x2022;</span>
+                      <span className="text-green-600 flex-shrink-0">•</span>
                       {f}
                     </li>
                   ))}
@@ -268,6 +284,13 @@ export function IncidentMapPage({
                 >
                   <ChevronRight size={12} />
                   View Recommendation
+                </button>
+                <button
+                  onClick={() => { onNavigate("fire_spread"); }}
+                  className="w-full flex items-center justify-center gap-2 py-2 rounded text-xs text-orange-400 hover:text-orange-300 border border-orange-500/30 hover:border-orange-500/50 transition-colors bg-orange-950/20"
+                >
+                  <Wind size={12} />
+                  Analyze Spread & Community Risk
                 </button>
                 <p className="text-[10px] text-[#4a5568] text-center">Illustrative confidence values are not calibrated probabilities.</p>
               </div>
@@ -299,4 +322,3 @@ function Row({ icon, label, value, mono, note }: { icon: React.ReactNode; label:
     </div>
   );
 }
-

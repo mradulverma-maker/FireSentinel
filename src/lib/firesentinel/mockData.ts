@@ -188,3 +188,57 @@ export const SUMMARY_METRICS = {
   ).length,
   missionsInProgress: MOCK_INCIDENTS.filter((i) => i.inspectionStatus === "in_progress").length,
 };
+
+// --- SENSOR NETWORK (SIMULATED) ---
+export const MOCK_SENSORS: import("./types").Sensor[] = [
+  { id: "SEN-001", name: "Pench North Node", lat: 22.1200, lng: 78.6480, status: "warning", tempC: 48.2, humidityPct: 18, smokeIndexPpm: 320, lastUpdated: "2024-11-14T08:15:00Z", incidentId: "FS-2024-001" },
+  { id: "SEN-002", name: "Pench South Node", lat: 22.1050, lng: 78.6600, status: "online", tempC: 36.4, humidityPct: 34, smokeIndexPpm: 45, lastUpdated: "2024-11-14T08:18:00Z" },
+  { id: "SEN-003", name: "Mudumalai Edge Node", lat: 11.4920, lng: 76.4760, status: "online", tempC: 31.8, humidityPct: 52, smokeIndexPpm: 22, lastUpdated: "2024-11-14T09:40:00Z", incidentId: "FS-2024-002" },
+  { id: "SEN-004", name: "Kandhamal Ridge Node", lat: 20.4310, lng: 85.8750, status: "offline", tempC: 0, humidityPct: 0, smokeIndexPpm: 0, lastUpdated: "2024-11-14T04:00:00Z", incidentId: "FS-2024-003" },
+  { id: "SEN-005", name: "Corbett Valley Node", lat: 29.5320, lng: 79.3180, status: "online", tempC: 29.1, humidityPct: 44, smokeIndexPpm: 61, lastUpdated: "2024-11-14T11:00:00Z", incidentId: "FS-2024-004" },
+  { id: "SEN-006", name: "Dharwad Fringe Node", lat: 15.3490, lng: 74.8160, status: "online", tempC: 27.3, humidityPct: 61, smokeIndexPpm: 14, lastUpdated: "2024-11-13T22:30:00Z", incidentId: "FS-2024-005" },
+];
+
+export const MOCK_WEATHER: import("./types").WeatherSnapshot = {
+  windDirection: "NE", windSpeedKmh: 22, tempC: 34, humidityPct: 21, dryLightningRisk: false,
+};
+
+export const MOCK_COMMUNITIES: import("./types").CommunityAtRisk[] = [
+  { id: "COM-001", name: "Seoni Forest Village", population: 420, distanceKm: 1.8, inZone: true, nearZone: true },
+  { id: "COM-002", name: "Pench Kisan Colony", population: 210, distanceKm: 3.1, inZone: false, nearZone: true },
+  { id: "COM-003", name: "NH-30 Dhaba Cluster", population: 65, distanceKm: 0.4, inZone: true, nearZone: true },
+  { id: "COM-004", name: "Turiya Forest Hamlet", population: 140, distanceKm: 4.8, inZone: false, nearZone: false },
+  { id: "COM-005", name: "Pench Tourism Zone", population: 80, distanceKm: 2.6, inZone: false, nearZone: true },
+];
+
+export const MOCK_TIMELINE: import("./types").TimelineEvent[] = [
+  { id: "TL-001", time: "08:23", type: "detection", incidentId: "FS-2024-001", label: "VIIRS hotspot detected", detail: "Satellite pass identified candidate thermal anomaly at Pench, MP", simulated: true },
+  { id: "TL-002", time: "08:25", type: "sensor", incidentId: "FS-2024-001", label: "SEN-001 smoke spike", detail: "Smoke index rose to 320 ppm at Pench North Node", simulated: true },
+  { id: "TL-003", time: "08:41", type: "drone", incidentId: "FS-2024-001", label: "Drone dispatched", detail: "Mission FS-2024-001 initiated from Seoni Base", simulated: true },
+  { id: "TL-004", time: "09:12", type: "assessment", incidentId: "FS-2024-001", label: "Inspection complete", detail: "Supporting visual evidence. Fire perimeter estimated ~142 ha", simulated: true },
+  { id: "TL-005", time: "09:18", type: "spread", incidentId: "FS-2024-001", label: "Risk zone projected", detail: "Illustrative NE spread projected. Seoni Village in estimated zone", simulated: true },
+  { id: "TL-006", time: "09:25", type: "warning", incidentId: "FS-2024-001", label: "Draft warning created", detail: "Community Early-Warning draft submitted for authority review", simulated: true },
+  { id: "TL-007", time: "09:47", type: "detection", incidentId: "FS-2024-002", label: "MODIS anomaly, Mudumalai TN", detail: "Thermal anomaly detected in Nilgiri shola belt", simulated: true },
+  { id: "TL-008", time: "10:05", type: "assessment", incidentId: "FS-2024-003", label: "Inconclusive, Kandhamal OD", detail: "Smoke haze obscured imagery. SEN-004 offline", simulated: true },
+  { id: "TL-009", time: "11:05", type: "drone", incidentId: "FS-2024-004", label: "Drone en route, Jim Corbett", detail: "Inspection underway for Himawari-9 anomaly near Ramnagar", simulated: true },
+  { id: "TL-010", time: "22:44", type: "detection", incidentId: "FS-2024-005", label: "Low-priority signal, Dharwad", detail: "Low-confidence anomaly consistent with agricultural burn-off", simulated: true },
+];
+
+export const INITIAL_WARNING_DRAFT: import("./types").WarningDraft = {
+  id: "WARN-001",
+  incidentId: "FS-2024-001",
+  title: "Forest Fire Advisory: Pench Tiger Reserve Buffer, MP",
+  affectedArea: "Seoni Forest Village and surrounds within ~5 km radius of FS-2024-001 hotspot",
+  reason: "Satellite-detected thermal anomaly with supporting visual evidence from simulated drone inspection. Illustrative fire spread model indicates NE movement toward Seoni Forest Village.",
+  recommendedAction: "Advisory: Residents of Seoni Forest Village and NH-30 Dhaba Cluster should prepare for possible evacuation. Forestry officers to verify on-ground conditions. This is a SIMULATED demonstration.",
+  status: "draft",
+  createdAt: "2024-11-14T09:25:00Z",
+  reviewChecklist: [
+    { item: "Satellite data reviewed by operator", checked: true },
+    { item: "Drone inspection evidence reviewed", checked: true },
+    { item: "Affected communities identified on map", checked: true },
+    { item: "Warning text reviewed for accuracy", checked: false },
+    { item: "Authority sign-off obtained (simulation)", checked: false },
+    { item: "Dissemination channels confirmed", checked: false },
+  ],
+};

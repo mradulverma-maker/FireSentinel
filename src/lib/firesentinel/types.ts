@@ -96,10 +96,78 @@ export interface RecommendationResult {
   relevantAssets: NearbyAsset[];
 }
 
+
+// --- NEW MODULE TYPES ---
+
+export type SensorStatus = "online" | "offline" | "warning";
+
+export interface Sensor {
+  id: string;
+  name: string;
+  lat: number;
+  lng: number;
+  status: SensorStatus;
+  tempC: number;
+  humidityPct: number;
+  smokeIndexPpm: number;
+  lastUpdated: string;
+  incidentId?: string;
+}
+
+export type WindDirection = "N" | "NE" | "E" | "SE" | "S" | "SW" | "W" | "NW";
+
+export interface WeatherSnapshot {
+  windDirection: WindDirection;
+  windSpeedKmh: number;
+  tempC: number;
+  humidityPct: number;
+  dryLightningRisk: boolean;
+}
+
+export type TimeStep = "current" | "+15min" | "+30min" | "+60min";
+
+export interface CommunityAtRisk {
+  id: string;
+  name: string;
+  population: number;
+  distanceKm: number;
+  inZone: boolean;
+  nearZone: boolean;
+}
+
+export type WarningStatus = "draft" | "awaiting_review" | "approved_simulation" | "closed";
+
+export interface WarningDraft {
+  id: string;
+  incidentId: string;
+  title: string;
+  affectedArea: string;
+  reason: string;
+  recommendedAction: string;
+  status: WarningStatus;
+  createdAt: string;
+  reviewChecklist: { item: string; checked: boolean }[];
+}
+
+export type TimelineEventType = "detection" | "sensor" | "drone" | "assessment" | "warning" | "spread" | "alert";
+
+export interface TimelineEvent {
+  id: string;
+  time: string;
+  type: TimelineEventType;
+  incidentId: string;
+  label: string;
+  detail: string;
+  simulated: true;
+}
+
 export type NavPage =
   | "overview"
   | "incident_map"
   | "cv_lab"
   | "drone_simulator"
   | "response_priorities"
+  | "sensor_network"
+  | "fire_spread"
+  | "early_warning"
   | "about";

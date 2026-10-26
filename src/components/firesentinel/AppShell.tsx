@@ -8,6 +8,9 @@ import { CVLabPage } from "./pages/CVLabPage";
 import { DroneSimulatorPage } from "./pages/DroneSimulatorPage";
 import { ResponsePrioritiesPage } from "./pages/ResponsePrioritiesPage";
 import { AboutPage } from "./pages/AboutPage";
+import { SensorNetworkPage } from "./pages/SensorNetworkPage";
+import { FireSpreadPage } from "./pages/FireSpreadPage";
+import { EarlyWarningPage } from "./pages/EarlyWarningPage";
 import type { NavPage, MissionPhase } from "../../lib/firesentinel/types";
 
 export function AppShell() {
@@ -91,9 +94,13 @@ export function AppShell() {
               searchQuery={searchQuery}
             />
           )}
+          {activePage === "sensor_network" && <SensorNetworkPage />}
+          {activePage === "fire_spread" && <FireSpreadPage />}
+          {activePage === "early_warning" && <EarlyWarningPage />}
           {activePage === "about" && <AboutPage />}
         </main>
       </div>
     </div>
   );
 }
+
