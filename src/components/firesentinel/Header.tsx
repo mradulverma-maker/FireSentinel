@@ -1,20 +1,25 @@
 ﻿"use client";
-import { Search, AlertTriangle, Satellite, Zap } from "lucide-react";
+import { Search, AlertTriangle, Satellite } from "lucide-react";
 import { type NavPage } from "../../lib/firesentinel/types";
 
 const PAGE_META: Record<NavPage, { title: string; sub: string; icon: string }> = {
-  overview:            { title: "Command Overview",         sub: "System status & recent detections",        icon: "⬡" },
-  incident_map:        { title: "Incident Map",             sub: "Live hotspot map — India forest regions",  icon: "◉" },
-  cv_lab:              { title: "Computer Vision Lab",      sub: "Illustrative aerial imagery analysis",     icon: "⬟" },
-  drone_simulator:     { title: "Drone Mission Simulator",  sub: "Simulated UAV inspection workflow",        icon: "◈" },
-  response_priorities: { title: "Response Priorities",      sub: "Rule-engine recommendations",              icon: "⬠" },
-  about:               { title: "About FireSentinel",       sub: "Student innovation project — prototype",   icon: "◇" },
+  overview:            { title: "Command Overview",             sub: "System status & recent detections",         icon: "⬡" },
+  incident_map:        { title: "Incident Map",                 sub: "Live hotspot map — India forest regions",   icon: "◉" },
+  sensor_network:      { title: "Local Sensor Network",         sub: "IoT sensor telemetry — simulated data",     icon: "📡" },
+  fire_spread:         { title: "Fire Spread & Community Risk", sub: "Illustrative spread simulation & risk",    icon: "💨" },
+  early_warning:       { title: "Community Early-Warning",      sub: "Warning review & advisory workflow",        icon: "🚨" },
+  cv_lab:              { title: "Computer Vision Lab",          sub: "Illustrative aerial imagery analysis",      icon: "⬟" },
+  drone_simulator:     { title: "Drone Mission Simulator",      sub: "Simulated UAV inspection workflow",         icon: "◈" },
+  response_priorities: { title: "Response Priorities",          sub: "Rule-engine recommendations",               icon: "⬠" },
+  about:               { title: "About FireSentinel",           sub: "Student innovation project — prototype",    icon: "◇" },
 };
 
 export function Header({ activePage, searchQuery, onSearchChange }: {
   activePage: NavPage; searchQuery: string; onSearchChange: (q: string) => void;
 }) {
-  const { title, sub, icon } = PAGE_META[activePage];
+  const meta = PAGE_META[activePage] || { title: "FireSentinel", sub: "Dashboard", icon: "🔥" };
+  const { title, sub, icon } = meta;
+
   return (
     <header
       className="h-14 flex items-center gap-4 px-5 flex-shrink-0 relative"
@@ -29,10 +34,10 @@ export function Header({ activePage, searchQuery, onSearchChange }: {
 
       {/* Page title */}
       <div className="flex items-center gap-2.5 flex-shrink-0">
-        <span className="text-[16px] leading-none" style={{ color: "#f97316", opacity: 0.7 }}>{icon}</span>
+        <span className="text-[16px] leading-none" style={{ color: "#f97316", opacity: 0.85 }}>{icon}</span>
         <div>
           <h1 className="text-sm font-bold text-white leading-tight tracking-tight">{title}</h1>
-          <p className="text-[10px] leading-tight mt-0.5" style={{ color: "#334a66" }}>{sub}</p>
+          <p className="text-[10px] leading-tight mt-0.5" style={{ color: "#6b82a0" }}>{sub}</p>
         </div>
       </div>
 
@@ -96,4 +101,3 @@ export function Header({ activePage, searchQuery, onSearchChange }: {
     </header>
   );
 }
-
